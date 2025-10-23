@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Revenue Prediction / Ресторан кирешесин божомолдоо</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        form { background: #fff; width: 60%; margin: 0 auto; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+        button { margin-top: 20px; padding: 10px 15px; border: none; border-radius: 6px; background-color: #007bff; color: #fff; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { text-align: center; margin-top: 30px; font-size: 22px; color: #007bff; }
+        .metrics { text-align: center; margin-top: 20px; font-size: 18px; color: #333; }
+    </style>
+</head>
+<body>
+<h1>Restaurant Revenue Prediction / Ресторан кирешесин божомолдоо</h1>
+
+<form method="POST">
+    <!-- Форма тилкелер (Rating, Seating, Avg Price, ...) -->
+    <label>Rating {Рейтинг} (1-5):</label>
+    <input type="number" name="rating" step="0.1" required>
+
+    <label>Seating Capacity {Орундардын саны}:</label>
+    <input type="number" name="seating_capacity" required>
+
+    <label>Average Meal Price {Орточо тамак баасы}:</label>
+    <input type="number" name="avg_price" step="0.1" required>
+
+    <label>Marketing Budget {Маркетинг бюджети}:</label>
+    <input type="number" name="marketing_budget" required>
+
+    <label>Social Media Followers {Соц. тармактагы жазылуучулар}:</label>
+    <input type="number" name="social_followers" required>
+
+    <label>Chef Experience Years {Ашпозчунун тажрыйбасы (жыл)}:</label>
+    <input type="number" name="chef_exp" required>
+
+    <label>Number of Reviews {Пикирлердин саны}:</label>
+    <input type="number" name="num_reviews" required>
+
+    <label>Average Review Length {Орточо пикир узундугу}:</label>
+    <input type="number" name="avg_review_len" step="0.1" required>
+
+    <label>Ambience Score {Атмосферанын баасы}:</label>
+    <input type="number" name="ambience" step="0.1" required>
+
+    <label>Service Quality Score {Кызмат көрсөтүүнүн сапаты}:</label>
+    <input type="number" name="service" step="0.1" required>
+
+    <label>Weekend Reservations {Дем алыш күндөрүндөгү резервдер}:</label>
+    <input type="number" name="weekend_res" required>
+
+    <label>Weekday Reservations {Жумалык күндөрдөгү резервдер}:</label>
+    <input type="number" name="weekday_res" required>
+
+    <label>Location {Орду}:</label>
+    <select name="location">
+        <option>Downtown {Шаар борбору}</option>
+        <option>Rural {Айылдык аймак}</option>
+    </select>
+
+    <label>Cuisine Type {Ашкананын түрү}:</label>
+    <select name="cuisine">
+        <option>Japanese {Япон}</option>
+        <option>Mexican {Мексикалык}</option>
+        <option>French {Француз}</option>
+        <option>Indian {Индиялык}</option>
+        <option>Italian {Италиялык}</option>
+    </select>
+
+    <label>Parking Availability {Токтотуучу жай барбы?}:</label>
+    <select name="parking">
+        <option>Yes {Ооба}</option>
+        <option>No {Жок}</option>
+    </select>
+
+    <button type="submit">Predict Revenue / Кирешени болжоо</button>
+</form>
+
+{% if result is not none %}
+<div class="result">
+    <p><b>Predicted Revenue:</b> ${{ "%.2f"|format(result) }}</p>
+</div>
+{% endif %}
+
+{% if metrics is not none %}
+<div class="metrics">
+    <p><b>Mean Absolute Error:</b> {{ "%.2f"|format(metrics.mae) }}</p>
+    <p><b>Mean Squared Error:</b> {{ "%.2f"|format(metrics.mse) }}</p>
+    <p><b>R² Score:</b> {{ "%.2f"|format(metrics.r2) }}</p>
+</div>
+{% endif %}
+
+{% if plot_data is not none %}
+<div style="text-align:center; margin-top:20px;">
+    <img src="data:image/png;base64,{{ plot_data }}" alt="Revenue Plot" style="max-width:90%;">
+</div>
+{% endif %}
+
+</body>
+</html>
